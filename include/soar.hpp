@@ -2,20 +2,20 @@
 #define SOAR_H_
 
 #include <Eigen/Dense>
+#include <vector>
 
 class Soar {
 public:
-  Soar(const Eigen::Ref<const Eigen::MatrixXd> matA,
-       const Eigen::Ref<const Eigen::MatrixXd> matB,
-       const Eigen::Ref<const Eigen::VectorXd> u);
+  Soar(const Eigen::Ref<const Eigen::MatrixXd> &matA,
+       const Eigen::Ref<const Eigen::MatrixXd> &matB);
 
-  void compute(int n);
+  Eigen::MatrixXd compute(int n);
 
 private:
+  const int ndim_;
   Eigen::MatrixXd matA_, matB_;
   Eigen::VectorXd u_;
 
-  const int ndim_;
   const double tol_ = 1.0e-10;
 };
 

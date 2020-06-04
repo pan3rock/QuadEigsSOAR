@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.0.0)
 project(QuadEigsSOAR VERSION 0.1.0)
 
+set(CMAKE_CXX_FLAGS "-Wall -g -fPIC -O3 -march=native")
+# set(CMAKE_CXX_FLAGS "-Wall -g")
+
 find_package(Eigen3 3.3 REQUIRED NO_MODULE)
 include_directories(${EIGEN3_INCLUDE_DIR})
 
