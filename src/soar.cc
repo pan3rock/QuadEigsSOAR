@@ -15,25 +15,25 @@ MatrixXd Soar::compute(int n) {
   VectorXd f = VectorXd::Zero(ndim_);
 
   // initialize
-  MatrixXd matQ = MatrixXd::Zero(ndim_, n);
-  MatrixXd matP = MatrixXd::Zero(ndim_, n);
-  MatrixXd matT = MatrixXd::Zero(n, n);
+  MatrixXcd matQ = MatrixXcd::Zero(ndim_, n);
+  MatrixXcd matP = MatrixXcd::Zero(ndim_, n);
+  MatrixXcd matT = MatrixXcd::Zero(n, n);
   std::vector<int> deflation;
 
   matQ.col(0) = q;
 
   for (int i = 0; i < n - 1; ++i) {
     // Recurrence role
-    VectorXd r = matA_ * matQ.col(i) + matB_ * matP.col(i);
-    double norm_init = r.norm();
-    MatrixXd basis = matQ.leftCols(i + 1);
+    VectorXcd r = matA_ * matQ.col(i) + matB_ * matP.col(i);
+    std::complex<double> norm_init = r.norm();
+    MatrixXcd basis = matQ.leftCols(i + 1);
 
     // Modified Gram Schmidt procedure
     // First orthogonalization
-    VectorXd coef = VectorXd::Zero(i + 1);
+    VectorXcd coef = VectorXd::Zero(i + 1);
     for (int j = 0; j < i + 1; ++j) {
       // Projection coeficients and projection subtraction
-      VectorXd v = basis.col(j);
+      VectorXcd v = basis.col(j);
       coef(j) = v.dot(r);
       r -= coef(j) * v;
     }
@@ -48,7 +48,7 @@ MatrixXd Soar::compute(int n) {
         coef(j) = v.dot(r);
         r -= coef(j) * v;
       }
-      matT.col(i).head(i + 1) = coef;
+      matT.col(i).head(i + 1) += coef;
     }
 
     double r_norm = r.norm();
